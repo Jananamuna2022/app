@@ -9,22 +9,23 @@ const urlsToCache = [
   '/Jananamuna.apk'
 ];
 
-// Install event: caching files
+// Install event: Cache important files
 self.addEventListener('install', (event) => {
-  console.log('[Service Worker] Install');
+  console.log('[Service Worker] Installing...');
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then((cache) => {
-        console.log('[Service Worker] Caching files');
+        console.log('[Service Worker] Caching files...');
         return cache.addAll(urlsToCache);
       })
+      .catch((error) => console.error('[Service Worker] Caching failed:', error))
   );
   self.skipWaiting();
 });
 
-// Activate event: cleaning old caches
+// Activate event: Clean up old caches
 self.addEventListener('activate', (event) => {
-  console.log('[Service Worker] Activate');
+  console.log('[Service Worker] Activating...');
   event.waitUntil(
     caches.keys().then((cacheNames) => {
       return Promise.all(
@@ -40,13 +41,20 @@ self.addEventListener('activate', (event) => {
   self.clients.claim();
 });
 
-// Fetch event: serving cache first, then network
+// Fetch event: Cache first, then network fallback
 self.addEventListener('fetch', (event) => {
   event.respondWith(
     caches.match(event.request)
       .then((response) => {
-        // Return cached file OR fetch from network
-        return response || fetch(event.request);
+        if (response) {
+          console.log('[Service Worker] Serving from cache:', event.request.url);
+          return response;
+        }
+        console.log('[Service Worker] Fetching from network:', event.request.url);
+        return fetch(event.request);
+      })
+      .catch((error) => {
+        console.error('[Service Worker] Fetch error:', error);
       })
   );
 });
