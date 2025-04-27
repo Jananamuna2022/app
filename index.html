@@ -53,17 +53,22 @@
     /* Slideshow Section */
     .slideshow-container {
       width: 100%;
-      max-width: 800px;
+      max-width: 400px; /* Smaller size */
       margin: 20px auto;
       overflow: hidden;
       border-radius: 10px;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
     .slideshow-container img {
       width: 100%;
       height: auto;
       display: block;
+      object-fit: cover;
+      border-radius: 10px;
     }
 
     /* Main Content */
