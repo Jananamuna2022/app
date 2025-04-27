@@ -53,11 +53,11 @@
     /* Slideshow Section */
     .slideshow-container {
       width: 100%;
-      max-width: 400px; /* Smaller size */
-      margin: 20px auto;
+      max-width: 250px; /* Smaller width */
+      margin: 15px auto;
       overflow: hidden;
       border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       display: flex;
       justify-content: center;
       align-items: center;
@@ -65,10 +65,10 @@
 
     .slideshow-container img {
       width: 100%;
-      height: auto;
-      display: block;
-      object-fit: cover;
+      height: auto; /* Maintain aspect ratio */
+      object-fit: contain;
       border-radius: 10px;
+      transition: opacity 1s ease-in-out;
     }
 
     /* Main Content */
@@ -227,7 +227,7 @@
         <i class="fas fa-envelope"></i>
       </a>
     </div>
-    <p><em>Mith</em></p>
+    <p><em></em></p>
   </footer>
 
   <script>
