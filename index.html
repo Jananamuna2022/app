@@ -8,15 +8,14 @@
   <!-- Manifest (for PWA) -->
   <link rel="manifest" href="manifest.json">
 
-  <!-- Icons for PWA -->
+  <!-- Icons -->
   <link rel="icon" href="logo.png" type="image/png">
   <link rel="apple-touch-icon" href="logo.png">
 
-  <!-- Font Awesome CDN for icons -->
+  <!-- Font Awesome for icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <style>
-    /* (your same CSS from before, no change) */
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: 'Arial', sans-serif;
@@ -231,8 +230,22 @@
           progressText.innerText = "Download Complete!";
           thankYou.style.display = "block";
           setTimeout(() => {
-            window.location.href = "Jananamuna.apk";
+            const link = document.createElement('a');
+            link.href = 'Jananamuna.apk';
+            link.download = 'Jananamuna.apk';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
           }, 1000);
+
+          // Reset after 5 seconds
+          setTimeout(() => {
+            downloadBtn.disabled = false;
+            progressFill.style.width = "0%";
+            progressText.innerText = "0%";
+            downloadStatus.style.display = "none";
+            thankYou.style.display = "none";
+          }, 5000);
         }
       }, 400);
     });
@@ -240,11 +253,9 @@
     // Register Service Worker
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js').then(reg => {
-          console.log('Service Worker Registered!', reg);
-        }).catch(err => {
-          console.log('Service Worker Registration Failed!', err);
-        });
+        navigator.serviceWorker.register('sw.js')
+          .then(reg => console.log('Service Worker Registered!', reg))
+          .catch(err => console.error('Service Worker Registration Failed!', err));
       });
     }
   </script>
