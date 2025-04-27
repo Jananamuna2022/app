@@ -5,18 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Download Jananamuna App</title>
 
-  <!-- Manifest (for PWA) -->
-  <link rel="manifest" href="manifest.json">
-
-  <!-- Icons -->
-  <link rel="icon" href="logo.png" type="image/png">
-  <link rel="apple-touch-icon" href="logo.png">
-
-  <!-- Font Awesome for icons -->
+  <!-- Font Awesome CDN for icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
       font-family: 'Arial', sans-serif;
       background-color: #f4f7fc;
@@ -25,18 +23,22 @@
       flex-direction: column;
       justify-content: space-between;
     }
+
+    /* Navbar */
     nav {
       background-color: #4CAF50;
       padding: 8px 16px;
       display: flex;
       align-items: center;
     }
+
     nav img {
       height: 30px;
       width: 30px;
       object-fit: contain;
       border-radius: 50%;
     }
+
     nav .title {
       color: white;
       font-size: 18px;
@@ -46,6 +48,8 @@
       text-align: center;
       margin-right: 30px;
     }
+
+    /* Slideshow Section */
     .slideshow-container {
       width: 100%;
       max-width: 200px;
@@ -54,12 +58,15 @@
       border-radius: 10px;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
+
     .slideshow-container img {
       width: 100%;
       height: auto;
       object-fit: contain;
       border-radius: 10px;
     }
+
+    /* Main Content */
     main {
       flex: 1;
       display: flex;
@@ -67,6 +74,7 @@
       align-items: center;
       padding: 10px;
     }
+
     .container {
       text-align: center;
       background: #fff;
@@ -77,11 +85,13 @@
       max-width: 300px;
       margin-top: 10px;
     }
+
     h1 {
       margin-bottom: 15px;
       font-size: 20px;
       color: #333;
     }
+
     .download-btn {
       background-color: #4CAF50;
       color: white;
@@ -92,14 +102,17 @@
       cursor: pointer;
       transition: background-color 0.3s, transform 0.2s;
     }
+
     .download-btn:hover {
       background-color: #45a049;
       transform: scale(1.02);
     }
+
     .download-btn:disabled {
       background-color: #9e9e9e;
       cursor: not-allowed;
     }
+
     .download-status {
       margin-top: 15px;
       width: 100%;
@@ -107,6 +120,7 @@
       flex-direction: column;
       align-items: center;
     }
+
     .progress-bar {
       width: 100%;
       background-color: #e0e0e0;
@@ -115,22 +129,27 @@
       overflow: hidden;
       margin-bottom: 5px;
     }
+
     .progress-bar-fill {
       width: 0%;
       height: 100%;
       background-color: #4CAF50;
       transition: width 0.4s ease;
     }
+
     #progressText {
       font-size: 12px;
       color: #333;
     }
+
     .thank-you {
       margin-top: 10px;
       color: green;
       font-size: 14px;
       display: none;
     }
+
+    /* Footer */
     footer {
       background-color: #4CAF50;
       color: white;
@@ -138,19 +157,29 @@
       padding: 10px;
       font-size: 12px;
     }
+
     .footer-icons a {
       color: white;
       margin: 0 8px;
       font-size: 18px;
       transition: color 0.3s;
     }
+
     .footer-icons a:hover {
       color: #ddd;
     }
+
     @media (max-width: 400px) {
-      nav .title { font-size: 16px; }
-      nav img { height: 28px; width: 28px; }
-      .container { padding: 15px 10px; }
+      nav .title {
+        font-size: 16px;
+      }
+      nav img {
+        height: 28px;
+        width: 28px;
+      }
+      .container {
+        padding: 15px 10px;
+      }
     }
   </style>
 </head>
@@ -198,18 +227,18 @@
     </div>
   </footer>
 
-  <!-- JavaScript -->
   <script>
-    // Slideshow
+    // Slideshow JavaScript
     const images = ["1.jpg", "2.jpg", "3.jpg"];
     let currentImage = 0;
     const slideImage = document.getElementById("slideImage");
+
     setInterval(() => {
       currentImage = (currentImage + 1) % images.length;
       slideImage.src = images[currentImage];
     }, 3000);
 
-    // Download APK
+    // Download button JavaScript
     const downloadBtn = document.getElementById("downloadBtn");
     const downloadStatus = document.getElementById("downloadStatus");
     const progressFill = document.getElementById("progressFill");
@@ -220,44 +249,29 @@
       downloadBtn.disabled = true;
       downloadStatus.style.display = "flex";
       let progress = 0;
+
       const interval = setInterval(() => {
-        progress += 10;
+        progress += 20;
         if (progress > 100) progress = 100;
+
         progressFill.style.width = progress + "%";
         progressText.innerText = progress + "%";
+
         if (progress === 100) {
           clearInterval(interval);
-          progressText.innerText = "Download Complete!";
+          progressText.innerText = "Download Starting...";
           thankYou.style.display = "block";
-          setTimeout(() => {
-            const link = document.createElement('a');
-            link.href = 'Jananamuna.apk';
-            link.download = 'Jananamuna.apk';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-          }, 1000);
 
-          // Reset after 5 seconds
-          setTimeout(() => {
-            downloadBtn.disabled = false;
-            progressFill.style.width = "0%";
-            progressText.innerText = "0%";
-            downloadStatus.style.display = "none";
-            thankYou.style.display = "none";
-          }, 5000);
+          // Create a hidden download link and click it
+          const link = document.createElement("a");
+          link.href = "Jananamuna.apk";  // Path to your APK
+          link.download = "Jananamuna.apk"; // Suggests the filename
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
         }
-      }, 400);
+      }, 300);
     });
-
-    // Register Service Worker
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js')
-          .then(reg => console.log('Service Worker Registered!', reg))
-          .catch(err => console.error('Service Worker Registration Failed!', err));
-      });
-    }
   </script>
 
 </body>
